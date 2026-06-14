@@ -1,4 +1,5 @@
 const socket=io();let browserTarget='source',browserPath='/mnt',progressState=[]
+socket.on('connect',()=>loadProgress())
 socket.on('log',m=>appendLog(m));socket.on('progress',p=>{const i=progressState.findIndex(x=>x.job_id===p.job_id);if(i>=0)progressState[i]=p;else progressState.push(p);renderProgressCards()});socket.on('running-jobs-changed',()=>loadProgress());socket.on('logs-cleared',()=>{document.getElementById('logs').textContent=''})
 function toggleSection(id){document.getElementById(id).classList.toggle('collapsed')}
 function appendLog(m){const l=document.getElementById('logs');l.textContent+=m+'\n';l.scrollTop=l.scrollHeight}
@@ -25,4 +26,4 @@ async function clearLogs(){await fetch('/api/logs',{method:'DELETE'});loadLogs()
 function exportAllJobs(){location.href='/api/export/jobs'}function exportJob(id){location.href=`/api/export/jobs/${id}`}
 async function importJobs(){const msg=importMessage;if(!importFile.files.length){msg.textContent='Choose a JSON file first.';msg.className='error';return}try{const json=JSON.parse(await importFile.files[0].text()),res=await fetch('/api/import/jobs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(json)}),r=await res.json();if(!res.ok)throw new Error(r.error||'Import failed');msg.textContent=`Imported ${r.imported} job(s).`;msg.className='success';loadJobs()}catch(e){msg.textContent=e.message;msg.className='error'}}
 document.addEventListener('click',e=>{for(const id of ['sourceSuggestions','destSuggestions']){const box=document.getElementById(id);if(!box.contains(e.target)&&!e.target.matches('input'))box.innerHTML=''}})
-updateCron();loadJobs();loadLogs();loadProgress();setInterval(loadProgress,3000)
+updateCron();loadJobs();loadLogs();loadProgress()
