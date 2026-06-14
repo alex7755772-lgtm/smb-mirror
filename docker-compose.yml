@@ -1,0 +1,16 @@
+services:
+  smb-mirror:
+    build: .
+    container_name: smb-mirror
+    restart: unless-stopped
+    init: true
+    ports:
+      - "5800:5800"
+    environment:
+      TZ: America/Edmonton
+      PORT: 5800
+      MAX_JOB_RUNTIME_MINUTES: 1440
+    volumes:
+      - ./config:/app/config
+      - ./data:/app/data
+      - /mnt:/mnt

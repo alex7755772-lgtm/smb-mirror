@@ -1,0 +1,16 @@
+{
+  "name": "smb-mirror-mnt-edition",
+  "version": "1.6.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "chokidar": "^4.0.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "node-cron": "^3.0.3",
+    "socket.io": "^4.8.1"
+  }
+}
