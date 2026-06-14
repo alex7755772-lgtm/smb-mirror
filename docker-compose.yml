@@ -1,5 +1,6 @@
 services:
   smb-mirror:
+    image: ghcr.io/alex7755772-lgtm/smb-mirror:latest
     build: .
     container_name: smb-mirror
     restart: unless-stopped
